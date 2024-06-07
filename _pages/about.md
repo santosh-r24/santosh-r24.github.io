@@ -4,26 +4,15 @@ title: About
 permalink: /about/
 ---
 
-[Reverie](https://github.com/amitmerchant1990/reverie) is a Jekyll theme which is simple and opinionated. It's actually a fork of [jekyll-now](https://github.com/barryclark/jekyll-now) with some additional features and personal touches which I've implemented to suit my needs for [my blog](https://www.amitmerchant.com).
+Hi, I'm Santosh R, ML Engineer based in Chennai, India. With over three years of experience in developing and deploying AI solutions currently working at Detect Technologie. I've built products specializing in object detection, segmentation, and classification particularly within the domain of industrial safety and monitoring.
 
-This is a plug-and-play Jekyll theme which you can use on GitHub Pages without even setting up a local environment.
+## What You’ll Find Here
 
-## Features
+On this blog, I share insights from my professional journey, and the things i learn including detailed explanations of the projects I'm working on. Whether you're a fellow AI enthusiast, a professional looking to upskill, or someone curious about the intricacies of machine learning, I hope you’ll find something valuable here.
 
-- Command-line free fork-first workflow, using GitHub.com to create, customize and post to your blog
-- Fully responsive and mobile optimized base theme
-- Sass/Coffeescript support using Jekyll 2.0
-- Free hosting on your GitHub Pages user site
-- All the SEO goodies comes in-built
-- Markdown blogging
-- Syntax highlighting using Pygments
-    - [Dracula syntax theme](https://draculatheme.com/) included
-- Disqus commenting
-- Google Analytics integration
-- Fuzzy search across blog posts
-- Pagination of posts works out-of-the-box.
-- Categorize posts out-of-the box
-- RSS Feed
-- In-built sitemap
+## Personal Interests
+Beyond my professional work, I have a keen interest in tech, art (My works include acrylic painting, designing Tees in ProCreate, and Sneaker Customization), strength training and more recently endurance sports.
 
-Learn more about it [here](https://github.com/amitmerchant1990/reverie) on how to get started.
+P.S: Currently, I'm planning to run a 10k, in Mumbai in August
+
+Thanks for stopping by, and I hope you enjoy exploring my blog!
