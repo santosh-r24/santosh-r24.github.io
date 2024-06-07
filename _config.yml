@@ -3,7 +3,7 @@
 #
 
 # Name of your site (displayed in the header)
-name: Reverie
+name: Today I Learned
 
 # Name of the author
 author: Santosh R
@@ -28,7 +28,6 @@ footer-links:
   instagram:
   linkedin: santosh-ramakrishnan-890b7812b/
   pinterest:
-  rss: rss
   twitter: SantoshKutti24
   stackoverflow: 
   youtube: # channel/<your_long_string> or user/<user-name>
