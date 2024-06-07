@@ -4,7 +4,7 @@ title: Forward Pass
 categories: [Gen AI, Diffusion Model]
 ---
 
-# Understanding the Forward Process of Diffusion Models
+# Introduction
 
 I've been experimenting with image generators for a while now and wanted to understand the underlying fundamentals more deeply. I came across this insightful survey paper, [Design Fundamentals of Diffusion Models](https://arxiv.org/abs/2306.04542). The paper breaks down the process into three parts: Forward, Reverse, and Sampling Processes. Today, we're focusing on the Forward Process.
 
