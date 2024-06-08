@@ -6,7 +6,7 @@ categories: [Gen AI, Diffusion Model]
 
 ## Introduction
 
-Continuing from where we left off in Part 1, we’re going to talk about the next integral process where training happens: The Reverse Process. The focus is on training the model component (denoising network) to remove noise and finally arrive at \(X_0\) (the original image). The design components governing this process are:
+Continuing from where we left off in Part 1, we’re going to talk about the next integral process where training happens: The Reverse Process. The focus is on training the model component (denoising network) to remove noise and finally arrive at $X_0$ (the original image). The design components governing this process are:
 
 ### 1. Network Architecture
 
@@ -25,11 +25,9 @@ This architecture also has an encoder/decoder structure.
 
 Learning the patterns of how the model adds and removes noise, i.e., the mean, will help with faster convergence and hence quicker reverse process, leading to faster training times. Calculating the Reverse Mean (μ) helps the model determine the expected value at each timestep to accurately denoise the image.
 
-\[
-\mu(xt, t) := \frac{\sqrt{\alpha_{t-1}(1 - \alpha_{t-1})} \cdot xt + \sqrt{\alpha_{t-1}(1 - \alpha_t)} \cdot x_0}{1 - \alpha_{t-1}}
-\]
+$\mu(x_{t}, t) := \frac{\sqrt{\alpha_{t-1}(1 - \alpha_{t-1})} \cdot xt + \sqrt{\alpha_{t-1}(1 - \alpha_t)} \cdot x_0}{1 - \alpha_{t-1}}$
 
-- $\alpha$ - Variance Schedule parameters
+- $\alpha_{t-1}, \alpha_{t}$ - Variance Schedule parameters
 
 - $x_{t}$ - Noisy data at time step t. 
 
@@ -37,23 +35,20 @@ Learning the patterns of how the model adds and removes noise, i.e., the mean, w
 
 
 There are two ways of parameterization:
-- **Direct Parameterization**: Calculate μ by replacing \(x_0\) (actual \(X_0\)) with \(\hat{x_0}\) (the model’s estimate of \(X_0\) during the reverse process).
+- **Direct Parameterization**: Calculate μ by replacing $x_0$ (actual $X_0$) with $\hat{x_0}\$ (the model’s estimate of $X_0$ during the reverse process).
 - **Indirect Parameterization**: 
-  - **Residual Noise**: This predicts the noise added in the forward process and subtracts this from the image to arrive at \(X_0\). This estimates the noise added. Since there’s a fixed range of noise values, it leads to a consistent prediction of magnitude.
+  - **Residual Noise**: This predicts the noise added in the forward process and subtracts this from the image to arrive at $X_0$. This estimates the noise added. Since there’s a fixed range of noise values, it leads to a consistent prediction of magnitude.
 
-      \[
-    \mu_\theta(xt, t) := \frac{1}{\sqrt{\alpha_t}} \cdot xt - \frac{(1 - \alpha_t)}{\sqrt{\alpha_t(1 - \alpha_{t-1})}} \cdot \hat{\epsilon}_t
-    \]
-      
-      \(\hat{\epsilon}_t\) - Predicted Noise
+      $\mu_\theta(x_{t}, t) := \frac{1}{\sqrt{\alpha_t}} \cdot xt - \frac{(1 - \alpha_t)}{\sqrt{\alpha_t(1 - \alpha_{t-1})}} \cdot \hat{\epsilon}_t$
     
-      \(\epsilon_t\) - Actual Noise added in the Forward process at that time step
+      
+      $\(\hat{\epsilon}_t\)$ - Predicted Noise
+    
+      $\(\epsilon_t\)$ - Actual Noise added in the Forward process at that time step
 
   - **Score**: This is the gradient of the log of the distribution of noise. It indicates the most possible change between two timesteps by guiding the denoising trajectory with direction and magnitude. This is better for later stage refinements to denoise accuracy.
 
-      \[
-    dx = f(x, t) - g^2(t) \cdot \hat{s}_t \cdot dt + g(t) \cdot dw
-    \]
+      $dx = f(x, t) - g^2(t) \cdot \hat{s}_t \cdot dt + g(t) \cdot dw$
 
       ![Score]({{ site.url }}/images/Score_visualization.png "Graph of Score")
       
