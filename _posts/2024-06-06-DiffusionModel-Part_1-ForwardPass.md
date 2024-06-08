@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Forward Pass
+title: Forward Pass, Part 1 - Design fundmanentals of Diffusion Models
 categories: [Gen AI, Diffusion Model]
 ---
 
