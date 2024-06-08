@@ -25,7 +25,9 @@ This architecture also has an encoder/decoder structure.
 
 Learning the patterns of how the model adds and removes noise, i.e., the mean, will help with faster convergence and hence quicker reverse process, leading to faster training times. Calculating the Reverse Mean (μ) helps the model determine the expected value at each timestep to accurately denoise the image.
 
-\[ \mu(xt, t) := \frac{\sqrt{\alpha_{t-1}(1 - \alpha_{t-1})} \cdot xt + \sqrt{\alpha_{t-1}(1 - \alpha_t)} \cdot x_0}{1 - \alpha_{t-1}} \]
+\[
+\mu(xt, t) := \frac{\sqrt{\alpha_{t-1}(1 - \alpha_{t-1})} \cdot xt + \sqrt{\alpha_{t-1}(1 - \alpha_t)} \cdot x_0}{1 - \alpha_{t-1}}
+\]
 
 - $\alpha$ - Variance Schedule parameters
 
@@ -39,7 +41,9 @@ There are two ways of parameterization:
 - **Indirect Parameterization**: 
   - **Residual Noise**: This predicts the noise added in the forward process and subtracts this from the image to arrive at \(X_0\). This estimates the noise added. Since there’s a fixed range of noise values, it leads to a consistent prediction of magnitude.
 
-      \[ \mu_\theta(xt, t) := \frac{1}{\sqrt{\alpha_t}} \cdot xt - \frac{(1 - \alpha_t)}{\sqrt{\alpha_t(1 - \alpha_{t-1})}} \cdot \hat{\epsilon}_t \]
+      \[
+    \mu_\theta(xt, t) := \frac{1}{\sqrt{\alpha_t}} \cdot xt - \frac{(1 - \alpha_t)}{\sqrt{\alpha_t(1 - \alpha_{t-1})}} \cdot \hat{\epsilon}_t
+    \]
       
       \(\hat{\epsilon}_t\) - Predicted Noise
     
@@ -47,7 +51,9 @@ There are two ways of parameterization:
 
   - **Score**: This is the gradient of the log of the distribution of noise. It indicates the most possible change between two timesteps by guiding the denoising trajectory with direction and magnitude. This is better for later stage refinements to denoise accuracy.
 
-      \[ dx = f(x, t) - g^2(t) \cdot \hat{s}_t \cdot dt + g(t) \cdot dw \]
+      \[
+    dx = f(x, t) - g^2(t) \cdot \hat{s}_t \cdot dt + g(t) \cdot dw
+    \]
 
       ![Score]({{ site.url }}/images/Score_visualization.png "Graph of Score")
       
