@@ -30,7 +30,7 @@ These mechanisms correct the unconditional direction based on given conditions.
     $\nabla_x \log p(x|c) = \nabla_x \log p(x) + w \nabla_x \log p(c|x)$
   
   
-    Here, \(\nabla_x \log p(x|c)\) and \(\nabla_x \log p(x)\) are conditional and unconditional scores, respectively, \(\nabla_x \log p(c|x)\) is the gradient of a classifier, and \(w\) is the weight. As the weight increases, the denoising network is more constrained to produce samples. However, an extra classifier may lead to additional costs, scaled up because the classifier is trained on each noise level.
+    Here, $(\nabla_x \log p(x|c)\)$ and $(\nabla_x \log p(x)\)$ are conditional and unconditional scores, respectively, \(\nabla_x \log p(c|x)\) is the gradient of a classifier, and \(w\) is the weight. As the weight increases, the denoising network is more constrained to produce samples. However, an extra classifier may lead to additional costs, scaled up because the classifier is trained on each noise level.
   
   - **Classifier-Free Guidance**:  
     To avoid the overhead of a classifier, this method uses a mixture of an unconditional model and vanilla guidance. The score from this quickly deviates away from the unconditional score, thus generating samples that satisfy the condition better.
