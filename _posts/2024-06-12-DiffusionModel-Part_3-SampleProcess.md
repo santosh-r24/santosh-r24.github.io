@@ -27,7 +27,7 @@ These mechanisms correct the unconditional direction based on given conditions.
   - **Classifier Guidance**:  
     An extra pre-trained classifier is used to change directions.
   
-    $\nabla_x \log p(x|c) = \nabla_x \log p(x) + w \nabla_x \log p(c|x)$
+    $\nabla_x$ $\log p(x|c)$ = $\nabla_x$ $\log p(x) + w \nabla_x \log p(c|x)$
   
   
     Here, $(\nabla_x \log p(x|c)\)$ and $(\nabla_x \log p(x)\)$ are conditional and unconditional scores, respectively, \(\nabla_x \log p(c|x)\) is the gradient of a classifier, and \(w\) is the weight. As the weight increases, the denoising network is more constrained to produce samples. However, an extra classifier may lead to additional costs, scaled up because the classifier is trained on each noise level.
