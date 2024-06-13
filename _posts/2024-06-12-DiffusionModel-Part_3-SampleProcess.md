@@ -22,15 +22,19 @@ These mechanisms correct the unconditional direction based on given conditions.
   
     $x_{t-1} = f(x_t, c + t)$
   
-    Here, \(f\) represents the denoising function, $\(x_t\)$ is the noisy image at timestep $\(t\)$, and $\(c + t\)$ is the combined condition and time step input. The influence of the condition is fixed by the addition process. Since there’s no way to dynamically change this condition with respect to timesteps, the later samples might not conform well.
+    Here, $\(f\)$ represents the denoising function, $\(x_t\)$ is the noisy image at timestep $\(t\)$, and $\(c + t\)$ is the combined condition and time step input. The influence of the condition is fixed by the addition process. 
+    Since there’s no way to dynamically change this condition with respect to timesteps, the later samples might not conform well as we can't fine tune to a granular level.
   
   - **Classifier Guidance**:  
     An extra pre-trained classifier is used to change directions.
   
-    $\nabla_x$ $\log p(x/c)$ = $\nabla_x$ $\log p(x)$ + w $\nabla_x$ $\log p(c/x)$
+    $\nabla_x$ $\log p(x/c)$ = $\nabla_x$ $\log p(x)$ + $w$ $\nabla_x$ $\log p(c/x)$
   
   
-    Here, $\nabla_x$ $\log p(x/c)\$ and $\nabla_x$ $\log p(x)$ are conditional and unconditional scores, respectively, $\nabla_x$ $\log p(c/x)$ is the gradient of a classifier, and \(w\) is the weight. As the weight increases, the denoising network is more constrained to produce samples. However, an extra classifier may lead to additional costs, scaled up because the classifier is trained on each noise level.
+    Here, $\nabla_x$ $\log p(x/c)\$ and $\nabla_x$ $\log p(x)$ are conditional and unconditional scores, respectively, $\nabla_x$ $\log p(c/x)$ is the gradient of a classifier, and $w$ is the weight.
+    As the weight increases, the denoising network is more constrained to produce samples. 
+
+    However, an extra classifier may lead to additional costs when scaling up because the classifier is trained on each noise level.
   
   - **Classifier-Free Guidance**:  
     To avoid the overhead of a classifier, this method uses a mixture of an unconditional model and vanilla guidance. The score from this quickly deviates away from the unconditional score, thus generating samples that satisfy the condition better.
@@ -47,10 +51,12 @@ The sampling procedure is several times slower compared to other generative mode
 Reducing the number of timesteps is the main goal of acceleration.
 
   - **Truncation**:  
-    Selects an intermediate timestep $\(t'\)$ and truncates the transition chain there. Another network is trained to model $\(P(t')\)$. Both training and inference times are reduced, and the timestep to truncate depends on data quality.
+    Selects an intermediate timestep $(t')$ and truncates the transition chain there. Another network is trained to model $P(t')$. Both training and inference times are reduced, and the timestep to truncate depends on data quality.
   
   - **Knowledge Distillation**:  
-    Directly distills all timesteps in the teacher network sample into one single student network. For example, the first model distills two steps to one, then it becomes a teacher and further trains another student model. Hence, after training, a student model can perform as well as the teacher model with a much lower size.
+    Directly distills all timesteps in the teacher network sample into one single student network.
+    For example, the first model distills two steps to one, then it becomes a teacher and further trains another student model. Hence, after training, a student model can perform as well as the teacher model with a much lower size.
+    ![KD]({{ site.url }}/images/Knowledge_Distillation.png "Knowledge Distillation Graph")
 
 ### Mind Map
 ![SP Mind Map]({{ site.url }}/images/Sampling_process.jpg "Mind Map")
