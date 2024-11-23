@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Diffusion Models: Forward Process</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo">Portfolio</a>
+			</header>
+
+			<!-- Nav -->
+			<nav id="nav">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="generic.html">Me</a></li>
+					<li><a href="experiences.html">Experiences</a></li>
+					<li><a href="posts.html">Posts</a></li>
+				</ul>
+			</nav>
+
+			<!-- Main -->
+			<div id="main">
+				<!-- Post -->
+				<section class="post">
+					<header class="major">
+						<h1>Diffusion Models: Forward Process</h1>
+						<p>A deep dive into the fundamentals of the Forward Process in Diffusion Models, as explored in the paper "Design Fundamentals of Diffusion Models".</p>
+					</header>
+
+					<!-- Article Content -->
+					<p><strong>Introduction</strong></p>
+					<p>I've been experimenting with image generators for a while now and wanted to understand the underlying fundamentals more deeply. I came across this insightful survey paper, <i>Design Fundamentals of Diffusion Models</i>. The paper breaks down the process into three parts: Forward, Reverse, and Sampling Processes. Today, we're focusing on the Forward Process.</p>
+					<p>Before delving into the Forward Process, let's look at a common application: text-to-image generation, and then connect the dots backwards.</p>
+					<p>Diffusion Models generate images through a process of de-noising (removing noise). A common application of this is text-to-image generation. At a high level, a user inputs text, which is then converted into embeddings. The diffusion model iteratively denoises a completely noisy image using these embeddings as guidance to generate the intended image. State-of-the-art models like Stable Diffusion generate images in a low-dimensional space, called latent space. This is then decoded back into pixel space, resulting in the final image output.</p>
+
+					<p><strong>Forward Process (FP)</strong></p>
+					<p>In the Forward Process, noise is continually added to an original image (X₀) in timesteps until we arrive at a completely noisy image (Xₜ). During the Reverse Process, the model tries to denoise the image to reconstruct X₀, which is how the model is trained.</p>
+					<p>In FP, there are no neural networks involved; noise is progressively added to create noisier versions of the image. The two underlying design components for FP are:</p>
+
+					<p><strong>1. Noise Configuration</strong></p>
+					<p>Noise Configuration can be further broken down into two parts:</p>
+					<ul>
+						<li><strong>Noise Scheduler:</strong> This controls how noise is added at each timestep, balancing both exploitation (how the model performs on previously seen data) and exploration (how the model performs on new data) capabilities. The quantity of noise added is directly proportional to how quickly an image is degraded, which influences the model's training time efficiency.</li>
+						<li><strong>Type of Noise:</strong> The type of noise chosen affects the model's capabilities. Isotropic Gaussian Noise is often used due to its uniform distribution, which helps the model generalize better. Key attributes include:
+							<ul>
+								<li><strong>Expressiveness:</strong> Generates varied samples.</li>
+								<li><strong>Degrees of Freedom:</strong> Learns complex variations.</li>
+								<li><strong>Flexibility:</strong> Generates diverse data.</li>
+							</ul>
+						</li>
+					</ul>
+
+					<p><strong>2. Transition Chain</strong></p>
+					<p>This involves the progressive addition of noise to the image, culminating in the terminal distribution (Xₜ). The way this terminal distribution is handled enhances the efficiency of the Reverse Process.</p>
+					<p>For instance, if we increase the amount of noise quickly to reach the terminal distribution, it speeds up the Forward Process. However, adding too much noise can hinder the Reverse Process, making it difficult for the model to converge or resulting in a noisy output. Therefore, it is crucial to add sufficient noise without completely obliterating the original image's traceable elements (e.g., consider an image gradually becoming blurred until it's unrecognizable).</p>
+
+					<p>To address this, early stopping is introduced. A pre-trained network learns the distribution and helps select a new terminal distribution that retains basic structures of the original image. This approach ensures the model is generalized while also reducing the time required for the Reverse Process.</p>
+
+					<p><strong>Systematic Method of Transition Chain Design</strong></p>
+					<p>A design-oriented approach considers architecture, training, and optimization. This method adapts the transition chain for different data properties:</p>
+					<ul>
+						<li><strong>Data Manifolds:</strong> Using Riemannian manifolds, which preserve the geometrical structures of the underlying data, can be beneficial, especially in biomedical applications. This can refine the design of the transition chain by better defining the terminal distribution.</li>
+						<li><strong>Latent Representation:</strong> Transitioning in latent space, a low-dimensional space, ensures the model learns semantic relationships within the data, enabling multi-modality. Latent features filter out less relevant information, allowing the model to learn abstract, semantic relationships more effectively.</li>
+					</ul>
+				</section>
+			</div>
+
+			<!-- Footer -->
+			<footer id="footer">
+				<section class="split contact">
+					<section>
+						<h3>Email</h3>
+						<p><a href="mailto:santoshramakrishnan24@gmail.com">santoshramakrishnan24@gmail.com</a></p>
+					</section>
+					<section>
+						<h3>Social</h3>
+						<ul class="icons alt">
+							<li><a href="https://www.linkedin.com/in/santosh-ramakrishnan-890b7812b/" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/santosh-r24" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+						</ul>
+					</section>
+				</section>
+			</footer>
+
+			<!-- Copyright -->
+			<!-- <div id="copyright">
+				<ul>
+					<li>&copy; Santosh R</li>
+					<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</div> -->
+
+		</div>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

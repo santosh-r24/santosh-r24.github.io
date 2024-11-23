@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Reverse Pass - Part 2: Design Fundamentals of Diffusion Models</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo">Portfolio</a>
+			</header>
+
+			<!-- Nav -->
+			<nav id="nav">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="generic.html">Me</a></li>
+					<li><a href="experiences.html">Experiences</a></li>
+					<li><a href="posts.html">Posts</a></li>
+				</ul>
+			</nav>
+
+			<!-- Main -->
+			<div id="main">
+				<!-- Post -->
+				<section class="post">
+					<header class="major">
+						<h1>Reverse Pass - Part 2: Design Fundamentals of Diffusion Models</h1>
+						<p>Diving deeper into the Reverse Process of Diffusion Models—key aspects, architectural choices, and optimization strategies.</p>
+					</header>
+
+					<!-- Article Content -->
+					<h2>Introduction</h2>
+					<p>Continuing from where we left off in Part 1, we’re going to talk about the next integral process where training happens: The Reverse Process. The focus is on training the model component (denoising network) to remove noise and finally arrive at <strong>X₀</strong> (the original image). The design components governing this process are:</p>
+
+					<h3>1. Network Architecture</h3>
+					<p>The two popular architectures used are U-Net and Transformer because of their capacity to model complex relationships in a wide range of applications:</p>
+					<p><strong>U-Net</strong><br />
+					This is a U-shaped encoder-decoder architecture. It creates a bottleneck of information, which forces the network to learn features effectively.</p>
+					<ul>
+						<li><strong>Encoder:</strong> It extracts high-level data and sends it to a downsampling layer for compression.</li>
+						<li><strong>Decoder:</strong> Uses the above features based on specific applications.</li>
+					</ul>
+
+					<p><strong>Transformer</strong><br />
+					This architecture also has an encoder/decoder structure.</p>
+					<ul>
+						<li><strong>Encoder:</strong> Consists of a self-attention layer, which measures relationships between data, regardless of spatial location. Hence, it’s better able to capture global dependencies (e.g., the overall shape of an object). However, being able to capture these global relationships comes at the cost of losing short-range relationships (the minute details of specific objects). To combat this, some U-net structures are added to maintain this aspect as well.</li>
+						<li><strong>Decoder:</strong> Uses the above features for specific applications.</li>
+					</ul>
+
+					<h3>2. Parameterization of Reverse Mean</h3>
+					<p>Learning the patterns of how the model adds and removes noise, i.e., the mean, will help with faster convergence and hence quicker reverse process, leading to faster training times. Calculating the Reverse Mean (μ) helps the model determine the expected value at each timestep to accurately denoise the image.</p>
+					<p><strong>Reverse Mean Formula:</strong></p>
+					<p>$$\mu(x_{t}, t) := \frac{\sqrt{\alpha_{t-1}(1 - \alpha_{t-1})} \cdot x_t + \sqrt{\alpha_{t-1}(1 - \alpha_t)} \cdot x_0}{1 - \alpha_{t-1}}$$</p>
+					<ul>
+						<li><strong>α<sub>t-1</sub>, α<sub>t</sub>:</strong> Variance Schedule parameters</li>
+						<li><strong>x<sub>t</sub>:</strong> Noisy data at time step t</li>
+						<li><strong>x<sub>0</sub>:</strong> Original data</li>
+					</ul>
+
+					<p>There are two ways of parameterization:</p>
+					<ul>
+						<li><strong>Direct Parameterization:</strong> Calculate μ by replacing <strong>x₀</strong> (actual <strong>X₀</strong>) with <strong>ĥx₀</strong> (the model’s estimate of <strong>X₀</strong> during the reverse process).</li>
+						<li><strong>Indirect Parameterization:</strong>
+							<ul>
+								<li><strong>Residual Noise:</strong> This predicts the noise added in the forward process and subtracts this from the image to arrive at <strong>X₀</strong>. This estimates the noise added. Since there’s a fixed range of noise values, it leads to a consistent prediction of magnitude.</li>
+							</ul>
+						</li>
+					</ul>
+
+					<h3>3. Optimization Design on Learning Objective</h3>
+					<p>The learning objective is the function that the model aims to optimize during training. There are different strategies involved to improve the effectiveness of the denoising network:</p>
+					<ul>
+						<li><strong>Reverse Variance:</strong> An appropriate reverse variance minimizes the discrepancy between the forward and reverse processes, reducing the time steps required to converge.</li>
+						<li><strong>Learning Weight:</strong> This is used to balance learning priorities in training, controlling the focus on global vs. local details of data at different stages of the reverse process.</li>
+					</ul>
+
+					<h3>Mindmap</h3>
+					<p><img src="images/Reverse_Snap.png" alt="Reverse Pass Mindmap"></p>
+				</section>
+			</div>
+
+			<!-- Footer -->
+			<footer id="footer">
+				<section class="split contact">
+					<section>
+						<h3>Email</h3>
+						<p><a href="mailto:santoshramakrishnan24@gmail.com">santoshramakrishnan24@gmail.com</a></p>
+					</section>
+					<section>
+						<h3>Social</h3>
+						<ul class="icons alt">
+							<li><a href="https://www.linkedin.com/in/santosh-ramakrishnan-890b7812b/" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/santosh-r24" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+						</ul>
+					</section>
+				</section>
+			</footer>
+
+			<!-- Copyright -->
+			<!-- <div id="copyright">
+				<ul>
+					<li>&copy; Santosh R</li>
+					<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</div> -->
+
+		</div>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

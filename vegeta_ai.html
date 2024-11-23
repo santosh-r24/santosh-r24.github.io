@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<!--
+    Vegeta AI Project Page
+    Based on the Massively theme from HTML5 UP
+-->
+<html>
+    <head>
+        <title>Vegeta AI: The Digital Avatar Journey</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    </head>
+    <body class="is-preload">
+
+        <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+            <header id="header">
+                <a href="index.html" class="logo">Portfolio</a>
+            </header>
+
+            <!-- Nav -->
+            <nav id="nav">
+                <ul class="links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="generic.html">Me</a></li>
+                    <li><a href="experiences.html">Experiences</a></li>
+                    <li class="active"><a href="posts.html">Posts</a></li>
+                </ul>
+            </nav>
+
+            <!-- Main -->
+            <div id="main">
+                <!-- Post -->
+                <section class="post">
+                    <header class="major">
+                        <h1>Vegeta AI<br />The Digital Avatar Journey</h1>
+                        <p>A passion project combining AI and creativity to bring Vegeta from <em>Dragon Ball Z</em> to life.</p>
+                    </header>
+                    <div class="image main"><img src="images/Vegeta.jpg" alt="Vegeta AI Project Image" /></div>
+
+                    <h2>Introduction</h2>
+                    <p>
+                        Vegeta AI is a passion project where I brought my favorite anime character, Vegeta from <em>Dragon Ball Z</em>, 
+                        to life as an interactive digital avatar. Combining fine-tuned TTS models, LLMs, and creative engineering, 
+                        Vegeta AI allows users to interact with a voice assistant that embodies Vegeta’s iconic personality, tone, and speech style.
+                    </p>
+
+                    <h2>Challenge</h2>
+                    <p>
+                        The main challenge was to recreate Vegeta’s voice accurately while maintaining the natural flow of his personality 
+                        in interactions. Achieving this required not just technical expertise but also careful attention to detail in data processing, 
+                        model fine-tuning, and system integration.
+                    </p>
+
+                    <h2>Solution</h2>
+                    <h3>Voice Cloning with Fine-Tuning</h3>
+                    <p>
+                        Using the Coqui TTS framework, I fine-tuned a pretrained TTS model with Vegeta’s voice samples. The process included:
+                    </p>
+                    <ul>
+                        <li>Cleaning and chunking Vegeta’s voice samples using voice activity detection (VAD).</li>
+                        <li>Transcribing the processed audio clips to create high-quality text-audio pairs.</li>
+                        <li>Fine-tuning the TTS model for Vegeta’s voice, ensuring it captured his distinct cadence and inflection.</li>
+                    </ul>
+
+                    <h3>LLM Integration</h3>
+                    <p>
+                        Leveraged OpenAI’s API to generate text-based responses that reflect Vegeta’s persona. The workflow involves:
+                    </p>
+                    <ul>
+                        <li>User query → LLM generates a text response in Vegeta’s personality → Fine-tuned TTS converts the response into audio.</li>
+                        <li>The integration ensures that Vegeta AI’s responses are not only accurate but also immersive.</li>
+                    </ul>
+
+                    <h3>Interface & Deployment</h3>
+                    <p>
+                        Developed a user-friendly interface using Gradio, allowing seamless interaction with Vegeta AI. The system was deployed on Hugging Face 
+                        for accessibility and scalability. You can <a href="https://huggingface.co/spaces/santoshr24/vegeta_chat_v2" target="_blank">try the demo here</a>.
+                    </p>
+
+                    <h2>Current Challenges</h2>
+                    <ul>
+                        <li><strong>Robotic Speech:</strong> Fine-tuning speech fluency and natural intonation.</li>
+                        <li><strong>Pronunciation Errors:</strong> Enhancing phoneme mapping to better reflect Vegeta’s tone.</li>
+                    </ul>
+
+                    <h2>Impact</h2>
+                    <p>
+                        Vegeta AI bridges the gap between technology and storytelling, creating an experience that resonates with anime fans and AI enthusiasts alike. 
+                        It showcases the potential of AI in recreating beloved characters and delivering personalized, engaging interactions.
+                    </p>
+
+                    <h2>Next Steps</h2>
+                    <p>
+                        Future improvements will focus on refining voice quality, adding more nuanced responses, and expanding the deployment capabilities for broader use cases.
+                    </p>
+                </section>
+            </div>
+
+            <!-- Footer -->
+            <footer id="footer">
+                <section class="split contact">
+                    <section>
+                        <h3>Email</h3>
+                        <p><a href="mailto:santoshramakrishnan24@gmail.com">santoshramakrishnan24@gmail.com</a></p>
+                    </section>
+                    <section>
+                        <h3>Social</h3>
+                        <ul class="icons alt">
+                            <li><a href="https://www.linkedin.com/in/santosh-ramakrishnan-890b7812b/" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+                            <li><a href="https://github.com/santosh-r24" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+                        </ul>
+                    </section>
+                </section>
+            </footer>
+
+            <!-- Copyright -->
+            <!-- <div id="copyright">
+                <ul><li>&copy; Santosh R</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+            </div> -->
+
+        </div>
+
+        <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrollex.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+    </body>
+</html>

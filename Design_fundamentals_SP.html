@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Sampling Process, Part 3 - Design Fundamentals of Diffusion Models</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo">Portfolio</a>
+			</header>
+
+			<!-- Nav -->
+			<nav id="nav">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="generic.html">Me</a></li>
+					<li><a href="experiences.html">Experiences</a></li>
+					<li><a href="posts.html">Posts</a></li>
+				</ul>
+			</nav>
+
+			<!-- Main -->
+			<div id="main">
+				<!-- Post -->
+				<section class="post">
+					<header class="major">
+						<h1>Sampling Process, Part 3 - Design Fundamentals of Diffusion Models</h1>
+						<p>The final stage of Diffusion Models: Conditional generation and accelerating the sampling process.</p>
+					</header>
+
+					<!-- Article Content -->
+					<h2>Sampling Process</h2>
+					<p>This is the third and final process in the design aspects of the Diffusion Model. Here, the trained network learns to generate images by denoising from complete noise to a clear image. The key areas of focus are:</p>
+
+					<h3>1. Conditional Generation</h3>
+					<p>Guiding the generative process with specific conditions or prompts is essential. Effective guiding mechanisms must be designed to generate high-quality images based on these conditions.</p>
+
+					<h4>Guiding Mechanisms</h4>
+					<p>These mechanisms correct the unconditional direction based on given conditions.</p>
+					<ul>
+						<li><strong>Vanilla Guidance:</strong>  
+							This straightforward method combines conditions and time in the reverse process for denoising. The model receives a combined input carrying contextual information from the condition and temporal information from the time step.
+							<br /><br />
+							$$x_{t-1} = f(x_t, c + t)$$
+							<br />
+							Here, $f$ represents the denoising function, $x_t$ is the noisy image at timestep $t$, and $c + t$ is the combined condition and time step input. The influence of the condition is fixed by the addition process. Since there’s no way to dynamically change this condition with respect to timesteps, the later samples might not conform well as we can't fine tune to a granular level.
+						</li>
+
+						<li><strong>Classifier Guidance:</strong>  
+							An extra pre-trained classifier is used to change directions.
+							<br /><br />
+							$$\nabla_x \log p(x/c) = \nabla_x \log p(x) + w \nabla_x \log p(c/x)$$
+							<br />
+							Here, $\nabla_x \log p(x/c)$ and $\nabla_x \log p(x)$ are conditional and unconditional scores, respectively, $\nabla_x \log p(c/x)$ is the gradient of a classifier, and $w$ is the weight. As the weight increases, the denoising network is more constrained to produce samples.
+							<br /><br />
+							However, an extra classifier may lead to additional costs when scaling up because the classifier is trained on each noise level.
+						</li>
+
+						<li><strong>Classifier-Free Guidance:</strong>  
+							To avoid the overhead of a classifier, this method uses a mixture of an unconditional model and vanilla guidance. The score from this quickly deviates away from the unconditional score, thus generating samples that satisfy the condition better.
+						</li>
+
+						<li><strong>Learned Mechanism:</strong>  
+							Instead of relying on manually designed guidance mechanisms, the model can learn how to modify its output better to adhere to the given conditions. This is done by using an additional network that learns to adjust the output of a pre-trained unconditional denoising network.
+						</li>
+					</ul>
+
+					<h3>2. Fast Generation</h3>
+					<p>The sampling procedure is several times slower compared to other generative models. The long generation time is mainly attributed to the number of timesteps. Therefore, reducing the time it takes to generate high-quality images is a primary focus.</p>
+
+					<h4>Acceleration Design</h4>
+					<p>Reducing the number of timesteps is the main goal of acceleration.</p>
+					<ul>
+						<li><strong>Truncation:</strong>  
+							Selects an intermediate timestep $t'$ and truncates the transition chain there. Another network is trained to model $P(t')$. Both training and inference times are reduced, and the timestep to truncate depends on data quality.
+						</li>
+						<li><strong>Knowledge Distillation:</strong>  
+							Directly distills all timesteps in the teacher network sample into one single student network.
+							<br />
+							For example, the first model distills two steps to one, then it becomes a teacher and further trains another student model. Hence, after training, a student model can perform as well as the teacher model with a much lower size.
+							<br />
+							<img src="images/Knowledge_Distillation.png" alt="Knowledge Distillation Graph" />
+						</li>
+					</ul>
+
+					<!-- <h3>Mind Map</h3>
+					<p><img src="images/Sampling_process.jpg" alt="Sampling Process Mind Map"></p> -->
+				</section>
+			</div>
+
+			<!-- Footer -->
+			<footer id="footer">
+				<section class="split contact">
+					<section>
+						<h3>Email</h3>
+						<p><a href="mailto:santoshramakrishnan24@gmail.com">santoshramakrishnan24@gmail.com</a></p>
+					</section>
+					<section>
+						<h3>Social</h3>
+						<ul class="icons alt">
+							<li><a href="https://www.linkedin.com/in/santosh-ramakrishnan-890b7812b/" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/santosh-r24" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+						</ul>
+					</section>
+				</section>
+			</footer>
+
+			<!-- Copyright -->
+			<!-- <div id="copyright">
+				<ul>
+					<li>&copy; Santosh R</li>
+					<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</div> -->
+
+		</div>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
