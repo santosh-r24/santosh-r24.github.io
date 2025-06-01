@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<!--
+    Vegeta AI Project Page
+    Based on the Massively theme from HTML5 UP
+-->
+<html>
+    <head>
+        <title>Vegeta AI: The Digital Avatar Journey</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    </head>
+    <body class="is-preload">
+
+        <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+            <header id="header">
+                <a href="index.html" class="logo">Portfolio</a>
+            </header>
+
+            <!-- Nav -->
+            <nav id="nav">
+                <ul class="links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="generic.html">Me</a></li>
+                    <li><a href="experiences.html">Experiences</a></li>
+                    <li class="active"><a href="posts.html">Posts</a></li>
+                </ul>
+            </nav>
+
+            <!-- Main -->
+            <div id="main">
+                <!-- Post -->
+                <section class="post">
+                    <header class="major">
+                        <h1>Vegeta Avatar<br />Building a voice + video spokesperson</h1>
+                        <p>A passion project combining AI and creativity to bring Vegeta from <em>Dragon Ball Z</em> to life.</p>
+                    </header>
+                    <div class="image main"><img src="images/Vegeta.jpg" alt="Vegeta AI Project Image" /></div>
+
+                    <h2>Introduction</h2>
+                    <p>
+                        This project started with a blank wall.<br>
+                        I was preparing for an upcoming episode of my podcast, a personal format where I paint portraits while having open conversations with guests. Only this time, I couldn’t think of anyone that I wanted to have my next episode with. <br>
+                        I wanted someone with a presence and a very unique take. Someone who wouldn't hold back.
+                        And that’s when the idea hit me: <br>
+                        What if I brought Vegeta, my childhood hero, as a digital guest?<br>
+                        But there was something deeper too. I’ve always struggled with self-promotion. I build a lot, but rarely put it out there. So I thought: if I can’t talk about my work, maybe I can build someone who will be confident, brutally honest, and unfiltered. <br>
+                        Who better than Vegeta?
+                        What began as a curiosity became an engineered voice-and-video AI agent that could speak on my behalf.
+                        <a href="https://huggingface.co/spaces/santoshr24/Vegeta_avatar" target="_blank">try the demo here</a>
+                    </p>
+
+                    <h2>Project Goals & Constraints</h2>
+                    <p>
+                        From the beginning, the vision was ambitious:
+                        <ul>
+                        <li>A real-time agent powered by WebRTC, capable of face-to-face interaction.</li>
+                        <li>No extensive reliance on external paid APIs.</li>
+                        <li>Minimal deployment cost (HF Spaces Pro at $9/month).</li>
+                    </ul>
+                    Currently, the WebRTC version is still in debugging hell, largely due to integration issues between the TTS and video sync pipelines. Meanwhile, this checkpoint version focuses on text-to-voice-to-video output using a character-based persona.
+                    </p>
+
+                    <h2>Why VITS?</h2>
+                        <ul>
+                        <li>Lower total latency</li>
+                        <li>No vocoder separation unlike 2 stage TTS systems</li>
+                        <li>Captures speaker identity more naturally</li>
+                    </ul>
+                    <p> 
+                        The initial model (V1) was trained with fewer steps and had a noticeably robotic, choppy tone.
+                        In this updated version, I trained for more steps, leading to better convergence and improved fluency. 
+                        It still isn’t perfect due to limited dataset quality, especially noisy game-derived audio that includes yelling and power-ups, some pronunciations result in unintentional shouting.
+                    </p>
+                    <h3>Dataset Challenges</h3>
+                    <ul>
+                        <li>Limited clean audio</li>
+                        <li>Includes anime + game voice clips (with screaming)</li>
+                    </ul>
+                    <h3>Phoneme Issues</h3>
+                    <p>
+                        The model uses <strong>espeak-ng</strong> for phoneme generation, which assumes a US English pronunciation baseline. 
+                        Indian names or non-standard words aren't handled well. I implemented some fixes via manual overrides, but the long-term solution is to enrich the phoneme dictionary with examples.
+                    </p>
+                    <h3>XTTS as Future Option</h3>
+                    <p>
+                        XTTS may eventually replace VITS for real-time voice use cases. 
+                        It supports cross-lingual cloning and more natural-sounding prosody. For now, in the tests i ran, VITS isn't a latency bottleneck, so I'm sticking with it.
+                    </p>
+                    
+                    <h2>Lip-Sync Video Generation</h2>
+                    <p>
+                        Initially, I wasn’t even aware that real-time lip-sync models conditioned on audio existed.
+                        Most open-source avatar models leaned toward diffusion pipelines for high-quality outputs, but they weren't suitable for real-time response.
+                        
+                        Eventually, I found MuseTalk, a GAN-based model that fits my use case perfectly.
+                    </p>
+                    <h3>Why MuseTalk</h3>
+                    <ul>
+                        <li>Fast generation</li>
+                        <li>Accepts audio as a conditioning signal</li>
+                        <li>Uses a base video with subtle head movement</li>
+                    </ul>
+                    <p>
+                        Unlike diffusion models, which require multiple iterative steps, MuseTalk generates lip-synced frames in latent space in a single forward pass. 
+                        It outputs only lip and cheek movement but for real-time agents, this tradeoff works.
+                    </p>
+                    <h3>How it Works?</h3>
+                    <ul>
+                        <li>Uses a Whisper model to chunk and extract features from audio</li>
+                        <li>Predicts lip-synced frames for that chunk</li>
+                        <li>I then stitch all frames into a complete video response</li>
+                    </ul>
+                    <h3>Challenges</h3>
+                    <ul>
+                        <li>Only mouth and cheek movement (eyes are static)</li>
+                        <li>Occasional jitter depending on input length</li>
+                    </ul>
+                    <h2>Deployment Constraints</h2>
+                    <h3>Why Hugging Face Spaces?</h3>
+                    <ul>
+                        <li>Simple interface for deploying demos</li>
+                        <li>Free GPU for short bursts</li>
+                        <li>Cost capped at $9/month with Pro</li>
+                    </ul>
+                    <h3>Key Limitations</h3>
+                    <ul>
+                        <li>TTS hosted on S3 + Sagemaker: Prone to crashing due to memory constraints</li>
+                        <li>Gradio streaming bug: Due to HF being locked to gradio==5.1.0, streamed video doesn't retain audio after the first response</li>
+                        <li>ZeroGPU builds are broken in latest Gradio versions, so I can’t upgrade until Hugging Face Spaces fully supports it</li>
+                    </ul>
+                    <p>
+                        This is frustrating. I know the demo isn’t as smooth as it could be, but I’m forced to work within these constraints
+                    </p>
+                    <h2>What's Next: WebRTC & Beyond</h2>
+                    <h3>v3: Real-Time WebRTC Agent</h3>
+                    <p>The original vision is still alive a live avatar agent you can talk to in a video call.</p>
+                    <ul>
+                        <li>Working through timestamp sync issues between audio and frames and smooth video streaming</li>
+                    </ul>
+                    <h3>Smarter Animation</h3>
+                    <p>MuseTalk only animates lips. I'd like to:</p>
+                    <ul>
+                        <li>Train a model that animates eyes, brows, head tilt based on the sentiment of the audio or text</li>
+                        <li>Improve liveliness and expressiveness of the avatar</li>
+                    </ul>
+                    <h2>Final Thoughts</h2>
+                    <p> 
+                        This project taught me more than just audio and video pipelines.<br> It taught me how to push through the frustration of broken toolchains, unclear documentation, and GPU cost ceilings.<br>
+
+                        Building an AI spokesperson based on Vegeta wasn’t just about showing off tech. 
+                        It was a way for me to confront something personal: the discomfort of talking about my own work.
+
+                        I’m proud of what I’ve built so far, and I’m excited to see where it leads next.
+                        <br>
+                        <br>If you’re working on avatar agents, GenAI systems, or building real-time ML infra, feel free to reach out. 
+                        I’d love to learn from your experience or jam on something together.
+                    </p>
+                </section>
+            </div>
+
+            <!-- Footer -->
+            <footer id="footer">
+                <section class="split contact">
+                    <section>
+                        <h3>Email</h3>
+                        <p><a href="mailto:santoshramakrishnan24@gmail.com">santoshramakrishnan24@gmail.com</a></p>
+                    </section>
+                    <section>
+                        <h3>Social</h3>
+                        <ul class="icons alt">
+                            <li><a href="https://www.linkedin.com/in/santosh-ramakrishnan-890b7812b/" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+                            <li><a href="https://github.com/santosh-r24" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+                        </ul>
+                    </section>
+                </section>
+            </footer>
+
+            <!-- Copyright -->
+            <!-- <div id="copyright">
+                <ul><li>&copy; Santosh R</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+            </div> -->
+
+        </div>
+
+        <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrollex.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+    </body>
+</html>
