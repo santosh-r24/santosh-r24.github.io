@@ -1,0 +1,455 @@
+<!DOCTYPE HTML>
+<!--
+    Vegeta AI Project Page - Technical Blog Post
+    Based on the Massively theme from HTML5 UP
+-->
+<html>
+    <head>
+        <title>Vegeta AI: The Digital Avatar Journey - Technical Blog</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="description" content="How I built a reliable AI avatar demo using RunPod, cut costs by 50%, and solved complex multi-modal alignment issues." />
+        <meta name="keywords" content="AI, Avatar, RunPod, HuggingFace, Machine Learning, Cost Optimization, Architecture" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+        
+        <!-- Syntax highlighting for code blocks -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+        
+        <style>
+            /* Custom styles for the blog post */
+            .architecture-diagram {
+                background: #2e3141;
+                padding: 20px;
+                border-radius: 8px;
+                font-family: monospace;
+                color: #ffffff;
+                text-align: center;
+                margin: 20px 0;
+            }
+            
+            .comparison-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+            
+            .comparison-table th, .comparison-table td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: left;
+            }
+            
+            .comparison-table th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+            
+            .comparison-table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            
+            .demo-link {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white !important;
+                padding: 12px 24px;
+                border-radius: 6px;
+                text-decoration: none;
+                display: inline-block;
+                margin: 10px 5px;
+                transition: transform 0.2s;
+            }
+            
+            .demo-link:hover {
+                transform: translateY(-2px);
+                text-decoration: none;
+            }
+            
+            .problem-highlight {
+                background-color: #ffebee;
+                border-left: 4px solid #f44336;
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            .solution-highlight {
+                background-color: #e8f5e8;
+                border-left: 4px solid #4caf50;
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            pre[class*="language-"] {
+                margin: 20px 0;
+                border-radius: 6px;
+            }
+            
+            .metrics-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin: 20px 0;
+            }
+            
+            .metric-card {
+                background: #f8f9fa;
+                padding: 15px;
+                border-radius: 8px;
+                text-align: center;
+                border: 1px solid #e9ecef;
+            }
+            
+            .metric-value {
+                font-size: 2em;
+                font-weight: bold;
+                color: #28a745;
+            }
+        </style>
+    </head>
+    <body class="is-preload">
+
+        <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+            <header id="header">
+                <a href="index.html" class="logo">Portfolio</a>
+            </header>
+
+            <!-- Nav -->
+            <nav id="nav">
+                <ul class="links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="generic.html">Me</a></li>
+                    <li><a href="experiences.html">Experiences</a></li>
+                    <li class="active"><a href="posts.html">Posts</a></li>
+                </ul>
+            </nav>
+
+            <!-- Main -->
+            <div id="main">
+                <!-- Post -->
+                <section class="post">
+                    <header class="major">
+                        <h1>Vegeta AI: The Digital Avatar Journey<br />
+                        <span style="font-size: 0.6em; font-weight: normal;">Building a Reliable, Cost-Effective AI Spokesperson with RunPod</span></h1>
+                        <p>A passion project combining AI and creativity to bring Vegeta from <em>Dragon Ball Z</em> to life as my digital career spokesperson.</p>
+                    </header>
+                    
+                    <div class="image main"><img src="images/Vegeta.jpg" alt="Vegeta AI Project Image" /></div>
+                    
+                    <!-- Quick Links -->
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="https://huggingface.co/spaces/santoshr24/vegeta_avatar_runpod" target="_blank" class="demo-link">
+                            🚀 Try Live Demo
+                        </a>
+                        <a href="vegeta_avatar.html" target="_blank" class="demo-link" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333 !important;">
+                            📖 Read Previous version of the demo
+                        </a>
+                    </div>
+
+                    <h2>Introduction</h2>
+                    <p>
+                        Turning the iconic Vegeta from <em>Dragon Ball Z</em> into a digital AI avatar that speaks in his "voice" was both a tech challenge and a creative one. My earlier version, hosted on Hugging Face Spaces and AWS Sagemaker, looked impressive on the surface. But behind the scenes, it suffered from two critical issues:
+                    </p>
+                    
+                    <ol>
+                        <li><strong>Demo reliability</strong> – Public users kept running into timeouts and unresponsive UI</li>
+                        <li><strong>Infrastructure costs</strong> – Keeping both audio and video models live was unsustainable</li>
+                    </ol>
+                    
+                    <p>This blog chronicles how I solved both problems and cut costs by 50% while making the demo bulletproof for public use.</p>
+
+                    <h2>Why the Previous Architecture Failed</h2>
+                    
+                    <p>My original setup looked deceptively simple:</p>
+                    
+                    <ul>
+                        <li><strong>Frontend:</strong> HuggingFace Spaces with Gradio UI</li>
+                        <li><strong>Backend:</strong> Everything running inside the Space container</li>
+                        <li><strong>Models:</strong> MuseTalk (lipsynced avatar generation) + VITS (Text-to-Speech) on Sagemaker</li>
+                    </ul>
+
+                    <div class="problem-highlight">
+                        <strong>The Fatal Flaw:</strong><br>
+                        HuggingFace Spaces GPU functions have a hard <strong>60-second timeout</strong>. My avatar model initialization alone took 45–60 seconds, leaving zero time for actual inference.
+                    </div>
+
+                    <h3>User Experience Nightmare</h3>
+                    
+                    <ul>
+                        <li><strong>Anonymous users:</strong> Most would click "Submit," wait endlessly, then see a timeout error</li>
+                        <li><strong>Logged-in users:</strong> Sometimes it worked, but only after painful 60+ second waits</li>
+                        <li><strong>No way to pre-warm:</strong> Spaces aggressively scales to zero, clearing models from memory</li>
+                    </ul>
+                    
+                    <p><em>The demo that worked flawlessly in development was completely unusable for the people I most wanted to impress.</em></p>
+
+                    <h2>Searching for a Solution</h2>
+
+                    <h3>What I Tried First (And Why It Failed)</h3>
+
+                    <p><strong>1. Model Caching in Memory</strong></p>
+                    <pre><code class="language-python">@functools.lru_cache(maxsize=1)
+def load_models_once():
+    return load_avatar_models()
+</code></pre>
+                    <p><em>Result:</em> Still hit timeouts on cold starts thanks to Spaces' aggressive scaling.</p>
+
+                    <p><strong>2. Async Processing</strong></p>
+                    <pre><code class="language-python">@spaces.GPU(enable_queue=True)
+async def generate_avatar_response(...):
+    # Still bound by 60s timeout
+    ...
+</code></pre>
+                    <p><em>Result:</em> No effect—the timeout is enforced at the function boundary.</p>
+
+                    <h3>The Realization: Split Frontend & Backend</h3>
+                    
+                    <div class="solution-highlight">
+                        <strong>The breakthrough:</strong><br>
+                        I was cramming the user-facing app AND heavyweight AI models into the same environment. I needed architectural separation.
+                    </div>
+
+                    <h2>Enter RunPod: The Game-Changing Migration</h2>
+
+                    <h3>Why RunPod Was Perfect</h3>
+
+                    <ol>
+                        <li><strong>Serverless GPU Workers</strong>
+                            <ul>
+                                <li>Pay only for compute used (auto-scale to zero)</li>
+                                <li>No strict per-request timeout</li>
+                                <li>Models preloaded and kept alive on "warm" containers</li>
+                            </ul>
+                        </li>
+                        <li><strong>Efficient Model Loading</strong>
+                            <ul>
+                                <li>Models loaded once, reused for many requests</li>
+                                <li>Shared network volume for model weights</li>
+                            </ul>
+                        </li>
+                        <li><strong>True Pay-Per-Use</strong>
+                            <ul>
+                                <li>No background cost when idle</li>
+                                <li>Charged only for actual compute seconds</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>New Architecture</h3>
+                    
+                    <div class="Architecture-Diagram"><img src="images/Arch_diagram_avatar.drawio.png" alt="Vegeta AI Project Image" /></div>
+                    <h2>Implementation Details</h2>
+
+                    <h3>Frontend – HuggingFace Spaces</h3>
+                    
+                    <p>Handles user interaction and job orchestration:</p>
+                    
+                    <pre><code class="language-python">def stream_llm_and_submit_jobs(user_query, runpod_jobs):
+    """Generate text response AND submit video jobs async"""
+    for chunk in llm_response:
+        yield chunk  # Stream text immediately
+        
+        if chunk.endswith(('.', '!', '?')):
+            # Submit to RunPod for video generation
+            audio = generate_tts(chunk)
+            job = runpod_endpoint.run({
+                "audio_base64": encode_audio(audio),
+                "audio_name": f"chunk_{uuid4()}.wav"
+            })
+            runpod_jobs.append(job)
+
+async def poll_and_yield_videos(runpod_jobs):
+    """Poll RunPod jobs and stream videos as ready"""
+    for job in runpod_jobs:
+        while job.status() != "COMPLETED":
+            await asyncio.sleep(0.5)
+        
+        video = decode_video(job.output())
+        yield video  # Stream each video as it completes
+</code></pre>
+
+                    <h3>Backend – RunPod Worker</h3>
+                    
+                    <p>Optimized for heavy lifting with persistent model loading:</p>
+                    
+                    <pre><code class="language-python"># RunPod Worker - handler.py
+def handler(job):
+    """Pre-loaded models, no timeouts, pure inference"""
+    
+    # Models already loaded in global scope
+    audio_data = decode_base64(job['input']['audio_base64'])
+    
+    # Process without time pressure
+    frames = generate_avatar_frames(audio_data)
+    video = encode_video(frames)
+    
+    return {
+        "video_base64": encode_base64(video),
+        "processing_time": time.time() - start_time
+    }
+
+# Global model loading (happens once per container)
+vae, unet, whisper = load_avatar_models()  # Takes 60s, but only once!
+</code></pre>
+
+                    <h2>Results: Before & After Migration</h2>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Spaces + Sagemaker (Old)</th>
+                                <th>Spaces + RunPod Architecture (New)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Cold Start Latency</strong></td>
+                                <td>❌ 100s+ (often timeout)</td>
+                                <td>✅ 40s</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Warm Start Latency</strong></td>
+                                <td>❌ 30-45s</td>
+                                <td>✅ 8-12s</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reliability</strong></td>
+                                <td>❌ ~20% success rate</td>
+                                <td>✅ >95% success rate</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">50%</div>
+                            <div>Cost Reduction</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">95%</div>
+                            <div>Success Rate</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">10s</div>
+                            <div>Warm Start Time</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">24/7</div>
+                            <div>Uptime Reliability</div>
+                        </div>
+                    </div>
+
+                    <h2>Cost Analysis: The Numbers Don't Lie</h2>
+
+                    <h3>Before (Sagemaker CPU + Always-On):</h3>
+                        <ul>
+                            <li><strong>Sagemaker CPU cost:</strong> $135/month</li>
+                            <li><strong>HF Spaces GPU:</strong> $9/month</li>
+                            <li><strong>Total monthly cost:</strong> ~$145/month</li>
+                            <li><strong>Performance issues:</strong> CPU overload with TTS processing</li>
+                            <li><strong>Scalability:</strong> Limited - couldn't handle concurrent users</li>
+                            <li><strong>Usage efficiency:</strong> Always-on billing even when idle</li>
+                        </ul>
+
+                        <h3>After (RunPod Pay-Per-Use):</h3>
+                        <ul>
+                            <li><strong>RunPod GPU cost:</strong> $0.00034/second = $0.0204/minute</li>
+                            <li><strong>Processing time:</strong> ~30 seconds per request</li>
+                            <li><strong>Cost per request:</strong> $0.0102</li>
+                            <li><strong>HF Spaces GPU:</strong> $9/month - same as before</li>
+                            <li><strong>Current usage:</strong> ~400 visitors over 4 months = 100 requests/month</li>
+                            <li><strong>Monthly RunPod cost:</strong> 100 × $0.0102 = $1.02/month</li>
+                            <li><strong>Total monthly cost:</strong> $10/month</li>
+                            <li><strong>Savings:</strong> <span style="color: #28a745; font-weight: bold;">93% cost reduction!</span></li>
+                        </ul>
+
+                        <div style="background: #e8f5e8; border-left: 4px solid #4caf50; padding: 15px; margin: 15px 0;">
+                            <strong>Real Impact:</strong><br>
+                            • <strong>$145 → $10 per month</strong> (93% cost reduction)<br>
+                            • <strong>Always-on → Pay-per-use</strong> (only pay when demo is actually used)<br>
+                            • <strong>CPU bottleneck (from Sagemaker) → GPU acceleration</strong> (no more performance issues)<br>
+                        </div>
+
+                    <h2>What's Next: Future Enhancements</h2>
+
+                    <h3>Planned Technical Improvements</h3>
+                    <ul>
+                        <li><strong>Subtitle Generation:</strong> Burn sentence-level SRT files directly into video</li>
+                        <li><strong>RAG Integration:</strong> Dynamic context retrieval instead of static JSON or both details pertaining to me, and Vegeta's story</li>
+                        <li><strong>Docker Image Optimization:</strong> Bake models into containers for faster global deployment</li>
+                        <li><strong>Observability:</strong> Grafana dashboards for system health monitoring</li>
+                    </ul>
+
+                    <h3>User Experience Enhancements</h3>
+                    <ul>
+                        <li><strong>Voice Modulation:</strong> Fine-tune Vegeta's intensity and tone</li>
+                        <li><strong>Response Guardrails:</strong> Better content filtering and persoHugginnality consistency</li>
+                    </ul>
+
+                    <h2>Conclusion</h2>
+
+                    <p>
+                        <strong>Migrating avatar video generation to RunPod transformed a frustrating proof-of-concept into a reliable, professional demo.</strong> The key insight was recognizing that cramming user interfaces and compute-intensive AI into the same environment creates fundamental constraints that no amount of code optimization can solve.
+                    </p>
+
+                    <p>The results speak for themselves:</p>
+                    <ul>
+                        <li>✅ <strong>90% cost reduction</strong> through pay-per-use architecture</li>
+                        <li>✅ <strong>95% success rate</strong> for public users (vs ~30% before)</li>
+                        <li>✅ <strong>Professional user experience</strong> with responsive streaming</li>
+                    </ul>
+
+                    <p>
+                        If you're building ML demos and hitting timeout walls or cost ceilings, consider separating your frontend from your compute layer. Sometimes the best optimization isn't in your code it's in your architecture.
+                    </p>
+
+                    <div style="text-align: center; margin: 40px 0;">
+                        <a href="https://huggingface.co/spaces/santoshr24/vegeta_avatar_runpod" target="_blank" class="demo-link">
+                            🚀 Try the Demo
+                        </a>
+                    </div>
+
+                    <hr>
+                    
+                    <p style="text-align: center; font-style: italic;">
+                        Have you faced similar infrastructure challenges with AI demos? I'd love to hear your story!<br>
+                        Connect with me on <a href="https://www.linkedin.com/in/santosh-ramakrishnan-890b7812b/" target="_blank">LinkedIn</a> or check out my other projects on <a href="https://github.com/santosh-r24" target="_blank">GitHub</a>.
+                    </p>
+                </section>
+            </div>
+
+            <!-- Footer -->
+            <footer id="footer">
+                <section class="split contact">
+                    <section>
+                        <h3>Email</h3>
+                        <p><a href="mailto:santoshramakrishnan24@gmail.com">santoshramakrishnan24@gmail.com</a></p>
+                    </section>
+                    <section>
+                        <h3>Social</h3>
+                        <ul class="icons alt">
+                            <li><a href="https://www.linkedin.com/in/santosh-ramakrishnan-890b7812b/" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+                            <li><a href="https://github.com/santosh-r24" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+                        </ul>
+                    </section>
+                </section>
+            </footer>
+
+        </div>
+
+        <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrollex.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+    </body>
+</html>
